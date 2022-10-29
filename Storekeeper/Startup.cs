@@ -10,6 +10,7 @@ using Storekeeper.Repositories;
 using Storekeeper.Services.ProductNomenclatures;
 using Storekeeper.Services.Products;
 using Storekeeper.Services.Storehouses;
+using Storekeeper.Services.TypeOperations;
 
 namespace Storekeeper
 {
@@ -36,6 +37,7 @@ namespace Storekeeper
             services.AddScoped<IStorehousesAppService, StorehousesAppService>();
             services.AddScoped<IProductNomenclaturesAppService, ProductNomenclaturesAppService>();
             services.AddScoped<IProductsAppService, ProductsAppService>();
+            services.AddScoped<ITypeOperationsAppService, TypeOperationsAppService>();
 
             #endregion
         }

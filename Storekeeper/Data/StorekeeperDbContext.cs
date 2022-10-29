@@ -12,5 +12,6 @@ namespace Storekeeper.Data
         public DbSet<Storehouse> Storehouses { get; set; }
         public DbSet<ProductNomenclature> ProductNomenclatures { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<TypeOperation> TypeOperations { get; set; }
     }
 }

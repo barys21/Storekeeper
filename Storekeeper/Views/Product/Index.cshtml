@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Storekeeper.Dtos.Products.ProductDto>
+﻿@model Storekeeper.Dtos.Products.GetAllViewDto
 
 @{
     ViewData["Title"] = "Товары";
@@ -7,6 +7,7 @@
 <h1>Товары</h1>
 
 <p>
+    <h3>Приходы</h3>
     <a asp-action="Create">Добавить приход</a>
 </p>
 <table class="table">
@@ -21,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.ProductArrival) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductNomenclatureName)
@@ -39,10 +40,55 @@
                 @Html.DisplayFor(modelItem => item.Sum)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изм</a> |
+                <a asp-action="WriteOff" asp-route-id="@item.Id">Списание</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Уд</a>
             </td>
         </tr>
 }
+    </tbody>
+</table>
+
+
+<p>
+    <h3>Списанные товары</h3>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th>Склад</th>
+            <th>Количество</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductWriteOff)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductNomenclatureName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StorehouseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sum)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изм</a> |
+                    <a asp-action="WriteOff" asp-route-id="@item.Id">Списание</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Уд</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

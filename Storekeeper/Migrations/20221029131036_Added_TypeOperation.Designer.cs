@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Storekeeper.Data;
@@ -9,9 +10,10 @@ using Storekeeper.Data;
 namespace Storekeeper.Migrations
 {
     [DbContext(typeof(StorekeeperDbContext))]
-    partial class StorekeeperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221029131036_Added_TypeOperation")]
+    partial class Added_TypeOperation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

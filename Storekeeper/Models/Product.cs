@@ -34,5 +34,13 @@ namespace Storekeeper.Models
         public Product ProductFk { get; set; }
         public ICollection<Product> ProductMoves { get; set; }
 
+        /// <summary>
+        ///  Тип операций
+        /// </summary>
+        public int TypeOperationId { get; set; }
+
+        [ForeignKey("TypeOperationId")]
+        public TypeOperation TypeOperationFk { get; set; }
+
     }
 }
