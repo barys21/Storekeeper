@@ -24,7 +24,21 @@ namespace Storekeeper.Data
 
                     dbContext.Add(storehouse);
                     dbContext.SaveChanges();
-                }               
+                }     
+            }
+
+            if (dbContext.ProductNomenclatures.ToList().Count() == 0)
+            {
+                for (int i = 1; i < 3; i++)
+                {
+                    var productNomenclature = new ProductNomenclature()
+                    {
+                        Name = $"Товар {i}"
+                    };
+
+                    dbContext.Add(productNomenclature);
+                    dbContext.SaveChanges();
+                }
             }
         }
     }
