@@ -40,6 +40,52 @@ namespace Storekeeper.Data
                     dbContext.SaveChanges();
                 }
             }
+
+            if (dbContext.Products.ToList().Count() == 0)
+            {
+                var ProductNomenclature = dbContext.ProductNomenclatures.First();
+                var Storehouse = dbContext.Storehouses.First();
+                if (ProductNomenclature == null || Storehouse == null) return;
+
+                // приход
+                var productIn = new Product()
+                {
+                    ProductNomenclatureId = ProductNomenclature.Id,
+                    StorehouseId = Storehouse.Id,
+                    Quantity = 5,
+                    Price = 15,
+                    Sum = 75
+                };
+
+                dbContext.Add(productIn);
+                dbContext.SaveChanges();
+
+                // приход
+                var productIn2 = new Product()
+                {
+                    ProductNomenclatureId = ProductNomenclature.Id,
+                    StorehouseId = Storehouse.Id,
+                    Quantity = 7,
+                    Price = 20,
+                    Sum = 140
+                };
+
+                dbContext.Add(productIn2);
+                dbContext.SaveChanges();
+
+                // приход
+                var productIn3 = new Product()
+                {
+                    ProductNomenclatureId = ProductNomenclature.Id,
+                    StorehouseId = Storehouse.Id,
+                    Quantity = 17,
+                    Price = 50,
+                    Sum = 850
+                };
+
+                dbContext.Add(productIn3);
+                dbContext.SaveChanges();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Storekeeper.Models
+namespace Storekeeper.ViewModels
 {
     public class ErrorViewModel
     {

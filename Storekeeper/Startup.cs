@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Storekeeper.Data;
 using Storekeeper.Repositories;
 using Storekeeper.Services.ProductNomenclatures;
+using Storekeeper.Services.Products;
 using Storekeeper.Services.Storehouses;
 
 namespace Storekeeper
@@ -32,6 +33,7 @@ namespace Storekeeper
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IStorehousesAppService, StorehousesAppService>();
             services.AddScoped<IProductNomenclaturesAppService, ProductNomenclaturesAppService>();
+            services.AddScoped<IProductsAppService, ProductsAppService>();
 
             #endregion
         }

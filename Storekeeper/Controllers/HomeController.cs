@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Storekeeper.Models;
+using Storekeeper.ViewModels;
 using System.Diagnostics;
 
 namespace Storekeeper.Controllers
@@ -16,7 +16,7 @@ namespace Storekeeper.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/Product/Index");
         }
 
         public IActionResult Privacy()
