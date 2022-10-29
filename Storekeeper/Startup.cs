@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Storekeeper.Data;
+using Storekeeper.Repositories;
+using Storekeeper.Services.Storehouses;
 
 namespace Storekeeper
 {
@@ -19,13 +19,21 @@ namespace Storekeeper
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<StorekeeperDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("Test")));
+
             services.AddControllersWithViews();
+
+            #region Include services
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IStorehousesAppService, StorehousesAppService>();
+
+            #endregion
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -36,11 +44,14 @@ namespace Storekeeper
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            InitializeDb.Seed(app);
 
             app.UseEndpoints(endpoints =>
             {
