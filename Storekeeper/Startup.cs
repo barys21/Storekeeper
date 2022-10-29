@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Storekeeper.Common;
 using Storekeeper.Data;
 using Storekeeper.Repositories;
 using Storekeeper.Services.ProductNomenclatures;
@@ -31,6 +32,7 @@ namespace Storekeeper
             #region Include services
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddAutoMapper(typeof(AppMappingProfile));
             services.AddScoped<IStorehousesAppService, StorehousesAppService>();
             services.AddScoped<IProductNomenclaturesAppService, ProductNomenclaturesAppService>();
             services.AddScoped<IProductsAppService, ProductsAppService>();

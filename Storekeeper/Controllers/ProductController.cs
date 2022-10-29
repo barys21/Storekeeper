@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Storekeeper.Models;
 using Storekeeper.Services.ProductNomenclatures;
 using Storekeeper.Services.Products;
@@ -12,13 +13,15 @@ namespace Storekeeper.Controllers
         private readonly IProductsAppService _productsAppService;
         private readonly IProductNomenclaturesAppService _productNomenclaturesAppService;
         private readonly IStorehousesAppService _storehousesAppService;
+        private readonly IMapper _mapper;
 
         public ProductController(IProductsAppService productsAppService, IProductNomenclaturesAppService productNomenclaturesAppService,
-            IStorehousesAppService storehousesAppService)
+            IStorehousesAppService storehousesAppService, IMapper mapper)
         {
             _productsAppService = productsAppService;
             _productNomenclaturesAppService = productNomenclaturesAppService;
             _storehousesAppService = storehousesAppService;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -44,16 +47,9 @@ namespace Storekeeper.Controllers
             if (!ModelState.IsValid)
                 return View(input);
 
-            var product = new Product
-            {
-                ProductNomenclatureId = input.ProductNomenclatureId,
-                StorehouseId = input.StorehouseId,
-                Quantity = input.Quantity,
-                Price = input.Price,
-                Sum = input.Sum
-            };
-
+            var product = _mapper.Map<Product>(input);
             _productsAppService.Create(product);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -66,18 +62,10 @@ namespace Storekeeper.Controllers
             if (product == null)
                 return NotFound();
 
-            var vm = new EditProductViewModel
-            {
-                Id = product.Id,
-                ProductNomenclatureId = product.ProductNomenclatureId,
-                StorehouseId = product.StorehouseId,
-                Quantity = product.Quantity,
-                Price = product.Price,
-                Sum = product.Sum,
-                ProductNomenclatureList = _productNomenclaturesAppService.GetAll(),
-                StorehousesList = _storehousesAppService.GetAll()
-            };
-
+            var vm = _mapper.Map<EditProductViewModel>(product);
+            vm.ProductNomenclatureList = _productNomenclaturesAppService.GetAll();
+            vm.StorehousesList = _storehousesAppService.GetAll();
+            
             return View(vm);
         }
 
@@ -87,17 +75,9 @@ namespace Storekeeper.Controllers
             if (!ModelState.IsValid)
                 return View(input);
 
-            var product = new Product
-            {
-                Id = input.Id,
-                ProductNomenclatureId = input.ProductNomenclatureId,
-                StorehouseId = input.StorehouseId,
-                Quantity = input.Quantity,
-                Price = input.Price,
-                Sum = input.Sum
-            };
-
+            var product = _mapper.Map<Product>(input);
             _productsAppService.Update(product);
+
             return RedirectToAction(nameof(Index));
         }
 
