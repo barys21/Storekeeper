@@ -9,21 +9,29 @@ namespace Storekeeper.ViewModels.Products
         /// <summary>
         ///  Product name
         /// </summary>
+        [Required]
         public int ProductNomenclatureId { get; set; }
 
         /// <summary>
         /// Склад 
         /// </summary>
+        [Required]
         public int StorehouseId { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Price { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Sum { get; set; }
+
+        [Required]
+        public int TypeOperationId { get; set; }
 
         public IQueryable<ProductNomenclature> ProductNomenclatureList { get; set; }
 

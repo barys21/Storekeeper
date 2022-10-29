@@ -27,9 +27,11 @@ namespace Storekeeper.Services.Products
 
             var arrivals = new List<ProductDto>();
             var writeOffs = new List<ProductDto>();
+            var moves = new List<ProductDto>();
             var productArrivals = dbList.Where(e => e.Quantity != 0 && e.TypeOperationFk.Name == "Приход").ToList();
             var productWriteOffs = dbList.Where(e => e.Quantity != 0 && e.TypeOperationFk.Name == "Списание").ToList();
-            
+            var productMoves = dbList.Where(e => e.Quantity != 0 && e.TypeOperationFk.Name == "Перемещение").ToList();
+
             // список приходов
             foreach (var item in productArrivals)
             {
@@ -63,10 +65,29 @@ namespace Storekeeper.Services.Products
 
                 writeOffs.Add(res);
             }
+
+            // список перемещенных товаров
+            foreach (var item in productMoves)
+            {
+                var res = new ProductDto
+                {
+                    Id = item.Id,
+                    ProductNomenclatureName = item.ProductNomenclatureFk.Name,
+                    StorehouseName = item.StorehouseFk.Name,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    Sum = item.Sum,
+                    ParentProductName = item.ProductFk?.ProductNomenclatureFk?.Name
+                };
+
+                moves.Add(res);
+            }
+
             var result = new GetAllViewDto
             {
                 ProductArrival = arrivals,
-                ProductWriteOff = writeOffs
+                ProductWriteOff = writeOffs,
+                ProductMove = moves
             };
 
             return result;
@@ -120,6 +141,30 @@ namespace Storekeeper.Services.Products
             _productrepository.Create(newProduct);
 
             dbProduct.Quantity = dbProduct.Quantity - input.Quantity;
+            dbProduct.Sum = dbProduct.Price * dbProduct.Quantity;
+            _productrepository.Update(dbProduct);
+        }
+
+        public void Move(MoveInput input)
+        {
+            var dbProduct = _productrepository.GetById(input.ParentProductId);
+            if (dbProduct == null) return;
+
+            var newProduct = new Product
+            {
+                ProductNomenclatureId = dbProduct.ProductNomenclatureId,
+                StorehouseId = input.StorehouseId,
+                Quantity = input.Quantity,
+                Price = dbProduct.Price,
+                Sum = dbProduct.Price * input.Quantity,
+                ParentProductId = input.ParentProductId,
+                TypeOperationId = input.TypeId
+            };
+
+            _productrepository.Create(newProduct);
+
+            dbProduct.Quantity = dbProduct.Quantity - input.Quantity;
+            dbProduct.Sum = dbProduct.Price * dbProduct.Quantity;
             _productrepository.Update(dbProduct);
         }
 

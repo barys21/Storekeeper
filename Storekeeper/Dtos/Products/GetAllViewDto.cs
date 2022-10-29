@@ -7,5 +7,6 @@ namespace Storekeeper.Dtos.Products
         public List<ProductDto> ProductArrival { get; set; }
 
         public List<ProductDto> ProductWriteOff { get; set; }
+        public List<ProductDto> ProductMove { get; set; }
     }
 }

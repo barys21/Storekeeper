@@ -19,7 +19,7 @@ namespace Storekeeper.Data
                 dbContext.Add(item);
                 dbContext.SaveChanges();
 
-                var item2 = new TypeOperation() { Name = "Перемещ" };
+                var item2 = new TypeOperation() { Name = "Перемещение" };
                 dbContext.Add(item2);
                 dbContext.SaveChanges();
 

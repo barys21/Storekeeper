@@ -17,12 +17,14 @@
                 <select asp-for="ProductNomenclatureId" class ="form-control" asp-items="@(new SelectList(Model.ProductNomenclatureList, "Id", "Name"))">
                     <option value="">Выберите</option>
                 </select>
+                <span asp-validation-for="ProductNomenclatureId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StorehouseId" class="control-label"></label>
                 <select asp-for="StorehouseId" class ="form-control" asp-items="@(new SelectList(Model.StorehousesList, "Id", "Name"))">
                     <option value="">Выберите</option>
                 </select>
+                <span asp-validation-for="StorehouseId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
@@ -36,8 +38,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Sum" class="control-label"></label>
-                <input asp-for="Sum" class="form-control" />
-                <span asp-validation-for="Sum" class="text-danger"></span>
+                <input asp-for="Sum" class="form-control"  disabled="disabled"/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -14,6 +14,8 @@ namespace Storekeeper.Common
             CreateMap<Product, EditProductViewModel>().ReverseMap();
             CreateMap<Product, WriteOffViewModel>().ReverseMap();
             CreateMap<WriteOffInput, WriteOffViewModel>().ReverseMap();
+            CreateMap<MoveInput, MoveViewModel>().ReverseMap();
+            CreateMap<Product, MoveViewModel>().ReverseMap();
         }
     }
 }

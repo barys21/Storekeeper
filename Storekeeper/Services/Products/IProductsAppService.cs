@@ -18,5 +18,7 @@ namespace Storekeeper.Services.Products
         void WriteOff(WriteOffInput input);
 
         int GetBalance(int id);
+
+        void Move(MoveInput input);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Storekeeper.ViewModels.Products
 {
-    public class WriteOffViewModel
+    public class MoveViewModel
     {
         /// <summary>
         /// Склад 

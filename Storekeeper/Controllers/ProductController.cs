@@ -52,6 +52,10 @@ namespace Storekeeper.Controllers
             if (!ModelState.IsValid)
                 return View(input);
 
+            if (input.Quantity == 0 || input.Price == 0)
+                return View(input);
+
+            input.Sum = input.Quantity * input.Price;
             var product = _mapper.Map<Product>(input);
             product.TypeOperationId = _typeOperationsAppService.GetAll().Where(e => e.Name == "Приход").First().Id;
             _productsAppService.Create(product);
@@ -81,6 +85,10 @@ namespace Storekeeper.Controllers
             if (!ModelState.IsValid)
                 return View(input);
 
+            if (input.Quantity == 0 || input.Price == 0)
+                return View(input);
+
+            input.Sum = input.Quantity * input.Price;
             var product = _mapper.Map<Product>(input);
             _productsAppService.Update(product);
 
@@ -131,6 +139,45 @@ namespace Storekeeper.Controllers
             var writeOff = _mapper.Map<WriteOffInput>(input);
             writeOff.TypeId = _typeOperationsAppService.GetAll().Where(e => e.Name == "Списание").First().Id;
             _productsAppService.WriteOff(writeOff);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Перемещение
+        public IActionResult Move(int id)
+        {
+            if (id == 0)
+                return NotFound();
+
+            var product = _productsAppService.GetById(id);
+            if (product == null)
+                return NotFound();
+
+            product.Product.ParentProductId = id;
+            var vm = _mapper.Map<MoveViewModel>(product.Product);
+            vm.ProductName = product.ProductNomenclatureName;
+            vm.Balance = product.Product.Quantity;
+            vm.Quantity = 0;
+            vm.StorehousesList = _storehousesAppService.GetAll();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Move(MoveViewModel input)
+        {
+            if (!ModelState.IsValid)
+                return View(input);
+
+            if (input.Quantity == 0)
+                return View(input);
+
+            if (input.Balance < input.Quantity)
+                return View();
+
+            var writeOff = _mapper.Map<MoveInput>(input);
+            writeOff.TypeId = _typeOperationsAppService.GetAll().Where(e => e.Name == "Перемещение").First().Id;
+            _productsAppService.Move(writeOff);
 
             return RedirectToAction(nameof(Index));
         }
