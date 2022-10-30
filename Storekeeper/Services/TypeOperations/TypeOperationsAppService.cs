@@ -18,5 +18,10 @@ namespace Storekeeper.Services.TypeOperations
             var results = _typeOperationrepository.GetAll();
             return results;
         }
+
+        public void Create(TypeOperation input)
+        {
+            _typeOperationrepository.Create(input);
+        }
     }
 }
